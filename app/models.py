@@ -1,10 +1,12 @@
 from datetime import datetime
-from app import db
+from app import db, app
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import \
     UserMixin  # is a class that includes generic implementations that are good for most user model class
 from app import login
 from hashlib import md5
+from time import time
+import jwt
 
 
 followers = db.Table(
@@ -66,6 +68,20 @@ class User(UserMixin, db.Model):
                         followers.c.follower_id == self.id)
         own = Post.query.filter_by(user_id=self.id)
         return followed.union(own).order_by(Post.timestamp.desc())
+
+    def get_reset_password_token(self, expires_in=600):
+        return jwt.encode(
+            {'reset_password': self.id, 'exp': time() + expires_in},
+            app.config['SECRET_KEY'], algorithm='HS256').decode('utf-8') # Note that the decode('utf-8') is necessary because the jwt.encode() function returns the token as a byte sequence, but in the application it is more convenient to have the token as a string
+
+    @staticmethod
+    def verify_reset_password_token(token):
+        try:
+            id = jwt.decode(token, app.config['SECRET_KEY'],
+                            algorithms='HS256')['reset_password']
+        except:
+            return
+        return User.query.get(id)
 
 
 class Post(db.Model):
