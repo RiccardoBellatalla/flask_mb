@@ -47,3 +47,12 @@ Remember:
 
 - installare l'estensione "pyjwt" con il seguente comando:
 	$ pip install pyjwt
+
+- installare l'estensione "flask-bootstrap" con il seguente comando:
+	$ pip install flask-bootstrap
+
+- installare l'estensione "flask-moment" con il seguente comando:
+	$ pip install flask-moment
+
+- installare l'estensione "flask-babel" con il seguente comando:
+	$ pip install flask-babel
