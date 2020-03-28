@@ -56,3 +56,6 @@ Remember:
 
 - installare l'estensione "flask-babel" con il seguente comando:
 	$ pip install flask-babel
+
+- installare il pacchetto "guess_language-spirit" con il seguente comando:
+	$ pip install guess_language-spirit
